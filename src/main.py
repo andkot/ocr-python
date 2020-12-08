@@ -35,7 +35,7 @@ for page in pages:
 ''' 
 Part #2 - Recognizing text from the images using OCR 
 '''
-3
+# 3
 # Variable to get count of total number of pages
 filelimit = image_counter - 1
 
@@ -56,7 +56,7 @@ for i in range(1, filelimit + 1):
     # ....
     # page_n.jpg
     filename = "page_" + str(i) + ".jpg"
-    get_font(filename)
+    # get_font(filename)
 
     # Recognize the text as string in image using pytesserct
     text = str(pytesseract.image_to_string(Image.open(filename), config=tessdata_dir_config))

@@ -107,38 +107,44 @@ RUN apk update \
 	&&  pip install numpy==1.17.3 \
 	&&  pip install scipy==1.3.1
 
-ENV OPENCV_VERSION="4.5.0"
-RUN apk add cmake
-RUN wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip
-RUN unzip ${OPENCV_VERSION}.zip \
-&& cd opencv-${OPENCV_VERSION}\
-&& mkdir cmake_binary \
-&& cd cmake_binary \
-&& cmake -DBUILD_TIFF=ON \
-  -DBUILD_opencv_java=OFF \
-  -DWITH_CUDA=OFF \
-  -DWITH_OPENGL=ON \
-  -DWITH_OPENCL=ON \
-  -DWITH_IPP=ON \
-  -DWITH_TBB=ON \
-  -DWITH_EIGEN=ON \
-  -DWITH_V4L=ON \
-  -DBUILD_TESTS=OFF \
-  -DBUILD_PERF_TESTS=OFF \
-  -DCMAKE_BUILD_TYPE=RELEASE \
-  -DCMAKE_INSTALL_PREFIX=$(python3.8 -c "import sys; print(sys.prefix)") \
-  -DPYTHON_EXECUTABLE=$(which python3.8) \
-  -DPYTHON_INCLUDE_DIR=$(python3.8 -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())") \
-  -DPYTHON_PACKAGES_PATH=$(python3.8 -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())") \
-  cd .. \
-&& make install \
-&& rm /${OPENCV_VERSION}.zip \
-&& rm -r /opencv-${OPENCV_VERSION}
-RUN ln -s \
-  /usr/local/python/cv2/python-3.8/cv2.cpython-37m-x86_64-linux-gnu.so \
-  /usr/local/lib/python3.8/site-packages/cv2.so
+#ENV OPENCV_VERSION="4.5.0"
+#RUN apk add cmake
+#RUN wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip
+#RUN unzip ${OPENCV_VERSION}.zip \
+#&& cd opencv-${OPENCV_VERSION}\
+#&& mkdir cmake_binary \
+#&& cd cmake_binary \
+#&& cmake -DBUILD_TIFF=ON \
+#  -DBUILD_opencv_java=OFF \
+#  -DWITH_CUDA=OFF \
+#  -DWITH_OPENGL=ON \
+#  -DWITH_OPENCL=ON \
+#  -DWITH_IPP=ON \
+#  -DWITH_TBB=ON \
+#  -DWITH_EIGEN=ON \
+#  -DWITH_V4L=ON \
+#  -DBUILD_TESTS=OFF \
+#  -DBUILD_PERF_TESTS=OFF \
+#  -DCMAKE_BUILD_TYPE=RELEASE \
+#  -DCMAKE_INSTALL_PREFIX=$(python3.8 -c "import sys; print(sys.prefix)") \
+#  -DPYTHON_EXECUTABLE=$(which python3.8) \
+#  -DPYTHON_INCLUDE_DIR=$(python3.8 -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())") \
+#  -DPYTHON_PACKAGES_PATH=$(python3.8 -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())") \
+#  cd .. \
+#&& make install \
+#&& rm /${OPENCV_VERSION}.zip \
+#&& rm -r /opencv-${OPENCV_VERSION}
+#RUN ln -s \
+#  /usr/local/python/cv2/python-3.8/cv2.cpython-37m-x86_64-linux-gnu.so \
+#  /usr/local/lib/python3.8/site-packages/cv2.so
+RUN tesseract -v
+RUN apk add jpeg-dev zlib-dev libjpeg
+RUN pip install pillow
+RUN echo 'manylinux1_compatible = True' > /usr/local/lib/python3.8/site-packages/_manylinux.py
+RUN pip install opencv-python
+RUN pip install pytesseract
+RUN pip install tesserocr
 
-RUN pip3 install -r req.txt
 
 # copy the content
 COPY src/ .
