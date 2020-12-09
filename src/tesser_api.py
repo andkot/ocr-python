@@ -1,26 +1,25 @@
 from tesserocr import PyTessBaseAPI, RIL, iterate_level
 
 
-def get_font(image_path):
-    api = PyTessBaseAPI(path='/src/tessdata_2')
-    # with PyTessBaseAPI(path='/home/my_data/tessdata') as api:
-    api.SetImageFile(image_path)
-    api.Recognize()
-    iter = api.GetIterator()
-    level = RIL.SYMBOL
+def get_words_info(image_path, tessdata_path):
+    # api = PyTessBaseAPI(path=tessdata_path)
+    with PyTessBaseAPI(path=tessdata_path) as api:
+        api.SetImageFile(image_path)
+        api.Recognize()
+        iter = api.GetIterator()
+        level = RIL.WORD
 
-    for r in iterate_level(iter, level):
-        symbol = r.GetUTF8Text(level)
-        word_attributes = r.WordFontAttributes()
-        # a = PyResultIterator.WordFontAttributes()
+        for r in iterate_level(iter, level):
+            element = r.GetUTF8Text(level)
+            word_attributes = r.WordFontAttributes()
+            base_line = r.BoundingBox(level)
 
-        if symbol:
-            # name = word_attributes['font_name']
-            print(f'symbol {symbol}, font: {word_attributes}')
-
+            if element:
+                print(f'symbol {element}, font: {word_attributes}')
+                print(f'baseline: {base_line}')
 
 
 if __name__ == '__main__':
     print("START")
     # api = PyTessBaseAPI(path='/home/andrei/my-space/prog/tessdata_2')
-    get_font('page_1.jpg')
+    get_words_info('/src/docs/doc_1.png', '/src/tessdata/')

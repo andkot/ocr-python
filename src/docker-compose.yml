@@ -3,5 +3,6 @@ version: '3'
 services:
   app:
     volumes:
-    - ./src/tessdata_2/:/home/andrei/my-space/prog/tessdata_2
+    - ./tessdata/:/tessdata
+    - ./docs/:/docs
     build: .

@@ -10,7 +10,7 @@ from tesser_api import get_font
 print('start')
 tessdata_dir_config = '--tessdata-dir "/home/andrei/my-space/prog/tessdata"'
 # img = cv2.imread('src/img_1.pdf')
-pages = convert_from_path('src/img_2.pdf')
+pages = convert_from_path('src/doc_1.pdf')
 
 # Counter to store images of each page of PDF to image
 image_counter = 1
