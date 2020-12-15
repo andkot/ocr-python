@@ -34,9 +34,14 @@ RUN apt install wget
 RUN cd tesseract \
     && make training \
     && make training-install
+RUN apt-get install -y poppler-utils
 
 
-COPY . ./src
+COPY tessdata ./src/tessdata
+COPY docs ./src/docs
+COPY *.py ./src/
+#COPY image.png ./src/
+#RUN export TESSDATA_PREFIX=/src/tessdata/
 
 #CMD ["python3", "src/tesser_api.py"]
 ADD run.sh /

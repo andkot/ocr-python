@@ -8,3 +8,12 @@ __pycache__/
 src/docs
 src/tessdata
 src/*.png
+
+*.pdf
+*.png
+*.jpeg
+*.tiff
+*.odt
+*.tag
+*.html
+*.xml

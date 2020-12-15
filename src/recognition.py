@@ -1,5 +1,7 @@
-from src.pdf_parser import parse_pdf
-from src.tesser_api import get_words_info
+from pytesseract import pytesseract
 
-def make_data(image_path, result):
-    pass
+tessdata_dir_config = '--tessdata-dir "./tessdata"'
+pytesseract.run_tesseract('image.png', '__output__', lang=None, config='hocr', extension='box')
+
+# def make_data(image_path, result):
+#     pass
